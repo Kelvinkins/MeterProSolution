@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "5w/C0KK2kJe2GLFNcXKRNmhC/GfwWj9letagzMKZ7Lk=",
+  "Source": "MeterPro.API",
+  "BasePath": "_content/MeterPro.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

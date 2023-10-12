@@ -1,0 +1,14 @@
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\bin\Debug\net6.0\MeterPro.DATA.deps.json
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\bin\Debug\net6.0\MeterPro.DATA.runtimeconfig.json
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\bin\Debug\net6.0\MeterPro.DATA.dll
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\bin\Debug\net6.0\MeterPro.DATA.pdb
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.csproj.AssemblyReference.cache
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.AssemblyInfoInputs.cache
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.AssemblyInfo.cs
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.csproj.CoreCompileInputs.cache
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.dll
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\refint\MeterPro.DATA.dll
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.pdb
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\MeterPro.DATA.genruntimeconfig.cache
+C:\Users\Kingsley\source\repos\MeterProSolution\MeterPro.DATA\obj\Debug\net6.0\ref\MeterPro.DATA.dll
