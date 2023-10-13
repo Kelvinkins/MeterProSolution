@@ -20,12 +20,12 @@ namespace MeterPro.API.Controllers
 
         [HttpPost]
         [Route("MeterDump")]
-        public async Task<IActionResult> MeterDump(TimeData model)
+        public async Task<IActionResult> MeterDump(TimeData[] model)
         {
             try
             {
                
-               await _unitOfWork.TimeDataRepository.Add(model);
+               await _unitOfWork.TimeDataRepository.AddBulk(model);
                 await _unitOfWork.CommitAsync();
             }
             catch (Exception ex)
