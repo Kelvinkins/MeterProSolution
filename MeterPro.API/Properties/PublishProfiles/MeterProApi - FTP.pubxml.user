@@ -6,6 +6,62 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project>
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAFeX+LBQ5bUCEnGUchcuY6gAAAAACAAAAAAAQZgAAAAEAACAAAACYtyA2HHkGCFZmtzpjRLU0rhGDfnc6RV+TIUi3iymhUAAAAAAOgAAAAAIAACAAAACzlgnyorh30w8iGmsSef2/tpBDlEAmB29QlYOFqqfa2YAAAADg7HaxqFO3ekVzGhSHAHLRW0/M5Xl+bfDjvpGXNMUMpXEi0tgqvX6DxMWT7t7UipVW9T6dp6fyQvEdEdyGYKlBoZV7rH9ipnDeELp+UR1FQCUYzL4L47aLFhylWkJ+PhBWfZAO+1ScmtivX/sXWhpmAwrPwegKS3NkFE37M52E/kAAAAA5wi+tAQw3NPDFughESIv0zcMByoXrpItNsFLdJ2qmXQgFerZGMqxAgda0Wu0diOSkbKvSw8qnrK+3xY0aVN5u</EncryptedPassword>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAFeX+LBQ5bUCEnGUchcuY6gAAAAACAAAAAAAQZgAAAAEAACAAAABpOWwURUvhLlNTPIpWI1wvmFxJOXdsCX/hjjpmJK62TwAAAAAOgAAAAAIAACAAAADsbVz09LBWN7tGMAyqYWmRUE6/BW0tHkAvVRd5K7fZtoAAAAA/bB0Y5PkI/dz3LSNdx3aiqHLiIkXKXHq7DYXnvyi0PEfdLbJ4rp7eB9e03WcT58X1KjiHyHOBRYDYazFn+SWdo2ILhvXC4LRj50wZQAzJUGtp72xubX9o3JusNRTlsufhrl36nKnYLnEWNzd52m5p5eHzarIeWH9oDaBcbvTiEUAAAADdvy9wTQiLjBgkkvVj4q35QjuVYXLukw9ESV22CmTqSiIYI0fV+0MQYqEuhUHGRRr02qFyEM1aOnOGpaJ4+8CD</EncryptedPassword>
+    <History>False|2023-10-13T08:08:38.7788330Z;False|2023-10-13T09:06:22.9400178+01:00;False|2023-10-13T09:03:13.9508223+01:00;False|2023-10-13T08:52:21.2672566+01:00;False|2023-10-13T08:50:36.0248884+01:00;</History>
+    <LastFailureDetails />
+    <_PublishTargetUrl>ftps://waws-prod-blu-507.ftp.azurewebsites.windows.net/site/wwwroot</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>12/10/2023 12:09:42</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>12/10/2023 16:27:00</publishTime>
+    </File>
+    <File Include="AWSSDK.Core.dll">
+      <publishTime>09/11/2022 17:47:34</publishTime>
+    </File>
+    <File Include="DnsClient.dll">
+      <publishTime>10/06/2022 21:37:22</publishTime>
+    </File>
+    <File Include="EntityFramework.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="MeterPro.API.deps.json">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="MeterPro.API.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="MeterPro.DATA.dll">
+      <publishTime>12/10/2023 18:15:35</publishTime>
+    </File>
+    <File Include="MeterPro.DATA.pdb">
+      <publishTime>12/10/2023 18:15:35</publishTime>
+    </File>
+    <File Include="Microsoft.Data.SqlClient.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.SqlServer.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.DependencyInjection.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Microsoft.Identity.Client.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+  </ItemGroup>
 </Project>
