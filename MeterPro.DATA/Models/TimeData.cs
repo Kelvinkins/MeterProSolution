@@ -154,13 +154,13 @@ namespace MeterPro.DATA.Models
         public string? meterNo { get; set; }
 
         [JsonPropertyName("timestamp")]
-        public string? timestamp { get; set; }
+        public long? timestamp { get; set; }
 
         [JsonPropertyName("CreateTime")]
         public string? CreateTime { get; set; }
 
         [JsonPropertyName("msgid")]
-        public string? msgid { get; set; }
+        public long? msgid { get; set; }
 
         [JsonPropertyName("MEPIMDT")]
         public string? MEPIMDT { get; set; }
