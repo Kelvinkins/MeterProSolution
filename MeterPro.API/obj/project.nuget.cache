@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Gk01GXetjjUDVPkilvLw9exZNRb2HrrWShztWxbEdC5OVBXTFtVi86Mc+QLYGi1p+GauFCVj06SlwFDAljOvQg==",
+  "dgSpecHash": "qZLFT/SfHwJenVtFOnls4WZ9XjEbu/M4/PAFqITM3WLv9BI7hlpONiZ0q9EXCTUdEY6dgg9zcXXFF9iobRi0MQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kingsley\\source\\repos\\MeterProSolution\\MeterPro.API\\MeterPro.API.csproj",
   "expectedPackageFiles": [
@@ -43,6 +43,7 @@
     "C:\\Users\\Kingsley\\.nuget\\packages\\mongodb.driver\\2.22.0\\mongodb.driver.2.22.0.nupkg.sha512",
     "C:\\Users\\Kingsley\\.nuget\\packages\\mongodb.driver.core\\2.22.0\\mongodb.driver.core.2.22.0.nupkg.sha512",
     "C:\\Users\\Kingsley\\.nuget\\packages\\mongodb.libmongocrypt\\1.8.0\\mongodb.libmongocrypt.1.8.0.nupkg.sha512",
+    "C:\\Users\\Kingsley\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Kingsley\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\Kingsley\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\Kingsley\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
