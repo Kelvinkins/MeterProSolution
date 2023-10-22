@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kingsley\\source\\repos\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj": {}
+    "C:\\Users\\Kingsley Samuel\\Documents\\Projects\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kingsley\\source\\repos\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj": {
+    "C:\\Users\\Kingsley Samuel\\Documents\\Projects\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kingsley\\source\\repos\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj",
+        "projectUniqueName": "C:\\Users\\Kingsley Samuel\\Documents\\Projects\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj",
         "projectName": "MeterPro.DATA",
-        "projectPath": "C:\\Users\\Kingsley\\source\\repos\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj",
-        "packagesPath": "C:\\Users\\Kingsley\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kingsley\\source\\repos\\MeterProSolution\\MeterPro.DATA\\obj\\",
+        "projectPath": "C:\\Users\\Kingsley Samuel\\Documents\\Projects\\MeterProSolution\\MeterPro.DATA\\MeterPro.DATA.csproj",
+        "packagesPath": "C:\\Users\\Kingsley Samuel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kingsley Samuel\\Documents\\Projects\\MeterProSolution\\MeterPro.DATA\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Kingsley\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Kingsley Samuel\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -23,6 +27,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\Kingsley Samuel\\Documents\\Projects\\CamguardNew\\CamguardSuite\\Camguard.Externals": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -74,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

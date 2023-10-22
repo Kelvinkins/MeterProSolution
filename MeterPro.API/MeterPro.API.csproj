@@ -4,7 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Controllers\CommandsController.cs" />
+    <Compile Include="Controllers\WebHooksController.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="WeatherForecast.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.23" />
