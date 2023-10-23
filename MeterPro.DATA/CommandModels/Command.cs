@@ -22,7 +22,7 @@ namespace MeterPro.DATA.CommandModels
     public class Value
     {
         [JsonPropertyName("ForceSwitch")]
-        public string? ForceSwitch { get; set; }
+        public int? ForceSwitch { get; set; }
     }
 
     public class LoginModel
