@@ -38,6 +38,15 @@ namespace MeterPro.DATA.DAL
             return _context.AddCommand(async () => await DbSet.InsertManyAsync(obj));
         }
 
+        public virtual Task Update(UpdateDefinition<TEntity> obj,string field, string value)
+        {
+
+            return _context.AddCommand(async () =>
+            {
+                await DbSet.UpdateManyAsync(Builders<TEntity>.Filter.Eq(field, value), obj);
+
+            });
+        }
 
 
         public virtual async Task<TEntity> GetById(ObjectId id)

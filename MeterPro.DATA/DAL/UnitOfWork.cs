@@ -8,6 +8,7 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Meter = MeterPro.DATA.Models.Meter;
 
 namespace MeterPro.DATA.DAL
 {
@@ -19,6 +20,7 @@ namespace MeterPro.DATA.DAL
             _context = context;
         }
         private MeterProRepository<TimeData> timeDataRepository;
+        private MeterProRepository<Meter> meterDataRepository;
 
 
 
@@ -35,6 +37,19 @@ namespace MeterPro.DATA.DAL
             }
         }
 
+
+        public MeterProRepository<Meter> MeterDataRepository
+        {
+            get
+            {
+
+                if (this.meterDataRepository == null)
+                {
+                    this.meterDataRepository = new MeterProRepository<Meter>(_context);
+                }
+                return meterDataRepository;
+            }
+        }
 
 
         public async Task<int> CommitAsync()

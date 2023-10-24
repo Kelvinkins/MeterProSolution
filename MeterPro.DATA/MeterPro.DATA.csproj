@@ -13,6 +13,7 @@
     <Compile Include="DAL\MeterProRepository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DataContexts\MeterProDataContext.cs" />
+    <Compile Include="Models\Meter.cs" />
     <Compile Include="Models\TimeData.cs" />
     <Compile Include="Utils\Cryptography.cs" />
   </ItemGroup>

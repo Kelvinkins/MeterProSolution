@@ -11,6 +11,11 @@ using JsonConvert = Newtonsoft.Json.JsonConvert;
 using MeterPro.DATA.AuthModels;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
+using MeterPro.DATA.DAL;
+using MongoDB.Driver;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MeterPro.DATA.Models;
 
 namespace MeterPro.API.Controllers
 {
@@ -18,7 +23,11 @@ namespace MeterPro.API.Controllers
     [ApiController]
     public class CommandsController : ControllerBase
     {
-
+        private readonly UnitOfWork unitOfWork;
+        public CommandsController(UnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
         private readonly HttpClient _httpClient = new HttpClient();
 
         //public MyHttpClient()
@@ -49,6 +58,15 @@ namespace MeterPro.API.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var filter = Builders<Meter>.Filter;
+                    var query = filter.Eq(x => x.MeterSn, command.MeterSn);
+
+                    var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+                    device!.LastUpdated = DateTime.Now;
+                    var update = Builders<Meter>.Update
+                                    .Set("LastUpdated", device.LastUpdated)
+                                    .Set("PowerStatus", command?.Value!.ForceSwitch);
+                    await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
                     // Parse and return the response content
                     return await response.Content.ReadAsStringAsync();
                 }
