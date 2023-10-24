@@ -25,40 +25,42 @@ namespace MeterPro.API.Controllers
         {
             try
             {
-                var filter = Builders<Meter>.Filter;
-                var query = filter.Eq(x => x.MeterSn, model?.FirstOrDefault()!.meterSn);
-
-                var device =  _unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
-                if (device == null)
+                foreach (var item in model)
                 {
-                    var singleMeter = model?.FirstOrDefault();
-                    //Enroll the device
-                    var newDevice = new Meter()
+                    var filter = Builders<Meter>.Filter;
+                    var query = filter.Eq(x => x.MeterSn, item.meterSn);
+
+                    var device = _unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+                    if (device == null)
                     {
-                        DateEnrolled = DateTime.Now,
-                        gatewaySn = singleMeter?.gatewaySn,
-                        LastUpdated = DateTime.Now,
-                        Latitude = 3.0000,
-                        Longitude = 6.0000,
-                        MeterSn = singleMeter?.meterSn,
-                        Status = singleMeter?.state,
-                        PowerStatus = "ON"
+                        //Enroll the device
+                        var newDevice = new Meter()
+                        {
+                            DateEnrolled = DateTime.Now,
+                            gatewaySn = item.gatewaySn,
+                            LastUpdated = DateTime.Now,
+                            Latitude = 3.0000,
+                            Longitude = 6.0000,
+                            MeterSn = item.meterSn,
+                            Status = item.state,
+                            PowerStatus = "ON"
 
-                    };
+                        };
 
-                    await _unitOfWork.MeterDataRepository.Add(newDevice);
+                        await _unitOfWork.MeterDataRepository.Add(newDevice);
+                        await _unitOfWork.CommitAsync();
+                    }
+                    else
+                    {
+                        device.LastUpdated = DateTime.Now;
+                        var update = Builders<Meter>.Update
+                                        .Set("LastUpdated", device.LastUpdated);
+                        await _unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                    }
+
+                    await _unitOfWork.TimeDataRepository.AddBulk(model!);
                     await _unitOfWork.CommitAsync();
                 }
-                else
-                {
-                    device.LastUpdated = DateTime.Now;
-                    var update = Builders<Meter>.Update
-                                    .Set("LastUpdated", device.LastUpdated);
-                   await  _unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
-                }
-               
-               await _unitOfWork.TimeDataRepository.AddBulk(model!);
-                await _unitOfWork.CommitAsync();
             }
             catch (Exception ex)
             {
