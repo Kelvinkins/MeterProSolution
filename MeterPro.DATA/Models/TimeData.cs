@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace MeterPro.DATA.Models
 {
-
+    using MongoDB.Bson;
     using System.Text.Json.Serialization;
 
     public class TimeData
     {
+        public ObjectId Id { get; set; }
+
         [JsonPropertyName("TempC")]
         public string? TempC { get; set; }
 
