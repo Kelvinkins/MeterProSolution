@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MeterCorsPolicy", builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.AllowAnyOrigin()
                .AllowAnyHeader()
                .AllowAnyMethod();
                //.AllowCredentials(); // If you need to support credentials (e.g., cookies)
