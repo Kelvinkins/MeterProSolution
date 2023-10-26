@@ -16,7 +16,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<MeterProDataContext>();
 
 builder.Services.AddScoped<UnitOfWork>();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MeterCorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+               //.AllowCredentials(); // If you need to support credentials (e.g., cookies)
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +34,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 //}
+app.UseCors();
 
 app.UseHttpsRedirection();
 
