@@ -50,8 +50,8 @@ namespace MeterPro.DATA.Models
         [JsonPropertyName("EQC")]
         public string? EQC { get; set; }
 
-        [JsonPropertyName("id")]
-        public string? id { get; set; }
+        //[JsonPropertyName("id")]
+        //public string? id { get; set; }
 
         [JsonPropertyName("Lg")]
         public string? Lg { get; set; }
