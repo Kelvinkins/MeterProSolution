@@ -29,7 +29,7 @@ namespace MeterPro.API.Controllers
                 {
                     var filter = Builders<Meter>.Filter;
                     var query = filter.Eq(x => x.MeterSn, item.meterSn);
-
+                   
                     var device = _unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
                     if (device == null)
                     {
