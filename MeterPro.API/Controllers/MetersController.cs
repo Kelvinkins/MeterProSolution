@@ -30,10 +30,10 @@ namespace MeterPro.API.Controllers
 
         [HttpGet]
         [Route("GetMeterLogs")]
-        public async Task<IActionResult> GetMeterLogs()
+        public async Task<IActionResult> GetMeterLogs(string meterSn)
         {
             var filter = Builders<TimeData>.Filter;
-            var query = filter.Empty;
+            var query = filter.Eq(x => x.meterSn,meterSn);
             var timeDatas = await _unitOfWork.TimeDataRepository.GetAll(query);
             return Ok(timeDatas);
         }
