@@ -27,7 +27,7 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 app.UseCors(options => options
-            .WithOrigins("https://meterpro.netlify.app", "http://localhost:3000")
+            .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
 app.UseHttpsRedirection();
