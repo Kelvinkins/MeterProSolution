@@ -19,7 +19,7 @@ namespace MeterPro.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDashboard(string meterSn)
+        public async Task<IActionResult> GetDashboard()
         {
             var filter = Builders<Meter>.Filter;
             var query = filter.Empty;
