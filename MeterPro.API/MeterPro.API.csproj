@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Include="Controllers\CommandsController.cs" />
+    <Compile Include="Controllers\DashboardsController.cs" />
     <Compile Include="Controllers\MetersController.cs" />
     <Compile Include="Controllers\WebHooksController.cs" />
     <Compile Include="Program.cs" />

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace MeterPro.DATA.StatisticModels
 {
-    internal class DashData
+    public class DashData
     {
+        public int AllMetersCount { get; set; }
+        public int ConnectedMetersCount { get; set; }
+        public int DisconnectedMetersCount { get; set; }
+        public int PowerOutMeters { get; set; }
+
     }
 }
