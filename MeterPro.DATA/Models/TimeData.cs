@@ -196,5 +196,11 @@ namespace MeterPro.DATA.Models
 
         [JsonPropertyName("EPI")]
         public string? EPI { get; set; }
+
+        [JsonPropertyName("Balance")]
+        public string? Balance { get; set; }
+
+        [JsonPropertyName("SwitchSta")]
+        public string? SwitchSta { get; set; }
     }
 }

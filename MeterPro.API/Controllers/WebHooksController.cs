@@ -29,7 +29,7 @@ namespace MeterPro.API.Controllers
                 {
                     var filter = Builders<Meter>.Filter;
                     var query = filter.Eq(x => x.MeterSn, item.meterSn);
-                   
+
                     var device = _unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
                     if (device == null)
                     {
@@ -43,8 +43,8 @@ namespace MeterPro.API.Controllers
                             Longitude = 6.0000,
                             MeterSn = item.meterSn,
                             Status = item.state,
-                            PowerStatus = "ON"
-
+                            PowerStatus = item.SwitchSta == "1" ? "ON" : "OFF",
+                            TotalUsageAccum=Convert.ToDouble(item.EPI)
                         };
 
                         await _unitOfWork.MeterDataRepository.Add(newDevice);
@@ -54,7 +54,9 @@ namespace MeterPro.API.Controllers
                     {
                         device.LastUpdated = DateTime.Now;
                         var update = Builders<Meter>.Update
-                                        .Set("LastUpdated", device.LastUpdated);
+                                        .Set("LastUpdated", device.LastUpdated)
+                                        .Set("PowerStatus", item.SwitchSta == "1" ? "ON" : "OFF")
+                                        .Set("TotalUsageAccum", Convert.ToDouble(item.EPI));
                         await _unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
                     }
 
