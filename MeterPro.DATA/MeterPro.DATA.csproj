@@ -10,6 +10,7 @@
   <ItemGroup>
     <Compile Include="AuthModels\TokenResponse.cs" />
     <Compile Include="CommandModels\Command.cs" />
+    <Compile Include="CommandModels\CommandResponse.cs" />
     <Compile Include="DAL\MeterProRepository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DataContexts\MeterProDataContext.cs" />

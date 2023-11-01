@@ -117,11 +117,21 @@ namespace MeterPro.API.Controllers
                 // You can parse or process the response as needed.
                 var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseContent);
                 var result= await SendPostRequestAsync(tokenResponse.data.token, command);
-                return Ok(result);
+                var commandResponse=JsonConvert.DeserializeObject<CommandResponse>(responseContent);
+                if (commandResponse!.Success == "1")
+                {
+                    var filter = Builders<Meter>.Filter;
+                    var query = filter.Eq(x => x.MeterSn, command.MeterSn);
+
+                    var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+
+                    var update = Builders<Meter>.Update
+                                    .Set("LastUpdated", device!.LastUpdated)
+                                    .Set("PowerStatus", command.Value!.ForceSwitch == 1 ? "ON" : "OFF");
+                     await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                }
+                return Ok(commandResponse);
                 
-
-
-
             }
             else
             {
