@@ -1,5 +1,6 @@
 ﻿using MeterPro.DATA.DAL;
 using MeterPro.DATA.Models;
+using MeterPro.DATA.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +12,14 @@ namespace MeterPro.API.Controllers
     [ApiController]
     public class WebHooksController : ControllerBase
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly UnitOfWork unitOfWork;
 
         public WebHooksController(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
         }
+
+      
 
 
         [HttpPost]
@@ -30,7 +33,7 @@ namespace MeterPro.API.Controllers
                     var filter = Builders<Meter>.Filter;
                     var query = filter.Eq(x => x.MeterSn, item.meterSn);
 
-                    var device = _unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+                    var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
                     if (device == null)
                     {
                         //Enroll the device
@@ -47,8 +50,8 @@ namespace MeterPro.API.Controllers
                             TotalUsageAccum=Convert.ToDouble(item.EPI)
                         };
 
-                        await _unitOfWork.MeterDataRepository.Add(newDevice);
-                        await _unitOfWork.CommitAsync();
+                        await unitOfWork.MeterDataRepository.Add(newDevice);
+                        await unitOfWork.CommitAsync();
                     }
                     else
                     {
@@ -57,11 +60,11 @@ namespace MeterPro.API.Controllers
                                         .Set("LastUpdated", device.LastUpdated)
                                         .Set("PowerStatus", item.SwitchSta == "1" ? "ON" : "OFF")
                                         .Set("TotalUsageAccum", Convert.ToDouble(item.EPI));
-                        await _unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                        await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
                     }
 
-                    await _unitOfWork.TimeDataRepository.AddBulk(model!);
-                    await _unitOfWork.CommitAsync();
+                    await unitOfWork.TimeDataRepository.AddBulk(model!);
+                    await unitOfWork.CommitAsync();
                 }
             }
             catch (Exception ex)
@@ -73,6 +76,45 @@ namespace MeterPro.API.Controllers
                 status = true,
                 message = $"Successful",
                 data = model
+            });
+        }
+
+
+        [HttpPost]
+        [Route("StatusUpdate")]
+        public async Task<IActionResult> StatusUpdate()
+        {
+            try
+            {
+
+                var filter = Builders<Meter>.Filter;
+                var query = filter.Empty;
+
+                var devices = await unitOfWork.MeterDataRepository.GetAll(query);
+
+                foreach (var device in devices)
+                {
+                    if (DateTimeHelper.HasNotReportedInLastTwoMinutes(Convert.ToDateTime(device.LastUpdated)))
+                    {
+                     
+                        var update = Builders<Meter>.Update
+                                        .Set("LastUpdated", DateTime.Now)
+                                        .Set("Status", "OFFLINE");
+                        await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device!.MeterSn!);
+                        await unitOfWork.CommitAsync();
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+            return Ok(new
+            {
+                status = true,
+                message = $"Successful",
             });
         }
 

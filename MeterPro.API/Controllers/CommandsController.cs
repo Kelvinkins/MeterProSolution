@@ -138,12 +138,14 @@ namespace MeterPro.API.Controllers
                     var query = filter.Eq(x => x.MeterSn, command.MeterSn);
 
                     var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
-
-                    var update = Builders<Meter>.Update
+                    if (DateTimeHelper.HasNotReportedInLastTwoMinutes(Convert.ToDateTime(device!.LastUpdated)))
+                    {
+                        var update = Builders<Meter>.Update
                                     .Set("LastUpdated", DateTime.Now)
                                     .Set("Status", "OFFLINE");
-                    await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device!.MeterSn!);
-                    await unitOfWork.CommitAsync();
+                        await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device!.MeterSn!);
+                        await unitOfWork.CommitAsync();
+                    }
 
                 }
 
