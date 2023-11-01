@@ -1,4 +1,5 @@
-﻿using MeterPro.DATA.DAL;
+﻿using MeterPro.DATA.CommandModels;
+using MeterPro.DATA.DAL;
 using MeterPro.DATA.Models;
 using MeterPro.DATA.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +14,12 @@ namespace MeterPro.API.Controllers
     public class WebHooksController : ControllerBase
     {
         private readonly UnitOfWork unitOfWork;
+      private readonly  CommandsController commandController;
 
         public WebHooksController(UnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+            commandController = new CommandsController(this.unitOfWork);
         }
 
       
@@ -28,6 +31,9 @@ namespace MeterPro.API.Controllers
         {
             try
             {
+
+
+
                 foreach (var item in model)
                 {
                     var filter = Builders<Meter>.Filter;
@@ -47,7 +53,7 @@ namespace MeterPro.API.Controllers
                             MeterSn = item.meterSn,
                             Status = item.state,
                             PowerStatus = item.SwitchSta == "1" ? "ON" : "OFF",
-                            TotalUsageAccum=Convert.ToDouble(item.EPI)
+                            TotalUsageAccum = Convert.ToDouble(item.EPI)
                         };
 
                         await unitOfWork.MeterDataRepository.Add(newDevice);
@@ -61,10 +67,53 @@ namespace MeterPro.API.Controllers
                                         .Set("PowerStatus", item.SwitchSta == "1" ? "ON" : "OFF")
                                         .Set("TotalUsageAccum", Convert.ToDouble(item.EPI));
                         await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                        await unitOfWork.CommitAsync();
+
                     }
 
                     await unitOfWork.TimeDataRepository.AddBulk(model!);
                     await unitOfWork.CommitAsync();
+                    var filterSub = Builders<Subscription>.Filter;
+                    var querySub = filterSub.Eq(x => x.MeterSn, item.meterSn);
+                    var subscription = await unitOfWork.SubscriptionRepository.GetAll(querySub);
+                    if (subscription.FirstOrDefault() == null)
+                    {
+                        //ShutOff meter
+                        var command = new Command()
+                        {
+                            MeterSn = item.meterSn,
+                            GatewaySn = item.gatewaySn,
+                            Method = "FORCESWITCH",
+                            Value = new Value() { ForceSwitch = 0 }
+                        };
+                        await commandController.Fire(command);
+                    }
+                    else
+                    {
+                        if (!(subscription!.FirstOrDefault()!.Active))
+                        {
+                            //ShutOff meter
+                            var command = new Command()
+                            {
+                                MeterSn = item.meterSn,
+                                GatewaySn = item.gatewaySn,
+                                Method = "FORCESWITCH",
+                                Value = new Value() { ForceSwitch = 0 }
+                            };
+                            await commandController.Fire(command);
+                        }
+                        else
+                        {
+                            var sub=subscription.FirstOrDefault();
+                            var reconciledValue= sub!.InitialValue - device!.TotalUsageAccum;
+                            sub.Balance = sub.Balance-reconciledValue;
+
+                            var subUpdate = Builders<Subscription>.Update
+                                            .Set("Balance", sub.Balance);
+                            await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
+                        }
+                    }
+
                 }
             }
             catch (Exception ex)

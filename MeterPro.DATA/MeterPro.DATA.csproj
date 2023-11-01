@@ -15,6 +15,7 @@
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DataContexts\MeterProDataContext.cs" />
     <Compile Include="Models\Meter.cs" />
+    <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\TimeData.cs" />
     <Compile Include="StatisticModels\DashData.cs" />
     <Compile Include="Utils\Cryptography.cs" />

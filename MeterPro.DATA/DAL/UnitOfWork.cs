@@ -21,8 +21,20 @@ namespace MeterPro.DATA.DAL
         }
         private MeterProRepository<TimeData> timeDataRepository;
         private MeterProRepository<Meter> meterDataRepository;
+        private MeterProRepository<Subscription> subscriptionRepository;
 
+        public MeterProRepository<Subscription> SubscriptionRepository
+        {
+            get
+            {
 
+                if (this.subscriptionRepository == null)
+                {
+                    this.subscriptionRepository = new MeterProRepository<Subscription>(_context);
+                }
+                return subscriptionRepository;
+            }
+        }
 
         public MeterProRepository<TimeData> TimeDataRepository
         {
