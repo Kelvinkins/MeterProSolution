@@ -129,7 +129,24 @@ namespace MeterPro.API.Controllers
                                     .Set("LastUpdated", device!.LastUpdated)
                                     .Set("PowerStatus", command.Value!.ForceSwitch == 1 ? "ON" : "OFF");
                      await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                    await unitOfWork.CommitAsync();
+
                 }
+                else
+                {
+                    var filter = Builders<Meter>.Filter;
+                    var query = filter.Eq(x => x.MeterSn, command.MeterSn);
+
+                    var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+
+                    var update = Builders<Meter>.Update
+                                    .Set("LastUpdated", DateTime.Now)
+                                    .Set("Status", "OFFLINE");
+                    await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device!.MeterSn!);
+                    await unitOfWork.CommitAsync();
+
+                }
+
                 return Ok(commandResponse);
                 
             }
