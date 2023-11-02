@@ -16,8 +16,8 @@ namespace MeterPro.DATA.Models
         public DateTime? DateEnrolled { get; set; }
         public DateTime? LastUpdated { get; set; }
         public string? PowerStatus { get; set; }
-        public double? TotalUsageAccum { get; set; }
-        public double? Balance { get; set; }
+        public decimal TotalUsageAccum { get; set; }
+        public decimal Balance { get; set; }
 
 
 

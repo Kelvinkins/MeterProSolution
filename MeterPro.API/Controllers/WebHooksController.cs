@@ -96,7 +96,7 @@ namespace MeterPro.API.Controllers
 
                         var sub = subscription.FirstOrDefault();
                         var reconciledValue = device!.TotalUsageAccum - sub!.InitialValue;
-                        sub.Balance = sub.Balance - reconciledValue;
+                        sub.Balance = Math.Round(sub.Balance - reconciledValue,2);
 
                         var subUpdate = Builders<Subscription>.Update
                                         .Set("Balance", sub.Balance);

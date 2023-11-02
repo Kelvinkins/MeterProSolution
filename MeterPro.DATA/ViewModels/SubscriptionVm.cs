@@ -9,6 +9,6 @@ namespace MeterPro.DATA.ViewModels
     public class SubscriptionVm
     {
         public string? MeterSn { get; set; }
-        public double? SubscriptionValue { get; set; }
+        public decimal SubscriptionValue { get; set; }
     }
 }

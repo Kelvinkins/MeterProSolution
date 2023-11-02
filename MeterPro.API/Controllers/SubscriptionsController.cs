@@ -71,7 +71,8 @@ namespace MeterPro.API.Controllers
                 var subUpdate = Builders<Subscription>.Update
                          .Set("InitialValue", device.TotalUsageAccum)
                          .Set("DateActivated", DateTime.Now)
-                         .Set("Balance", subscription.Balance + model.SubscriptionValue);
+                         .Set("SubscriptionValue", model.SubscriptionValue)
+                         .Set("Balance", Math.Round(subscription.Balance + model.SubscriptionValue,2));
                 await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
                 await unitOfWork.CommitAsync();
             

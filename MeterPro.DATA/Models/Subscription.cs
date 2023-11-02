@@ -8,9 +8,9 @@ namespace MeterPro.DATA.Models
 {
     public class Subscription
     {
-        public double? SubscriptionValue { get; set; }
-        public double? InitialValue { get; set; }
-        public double? Balance { get; set; }
+        public decimal SubscriptionValue { get; set; }
+        public decimal InitialValue { get; set; }
+        public decimal Balance { get; set; }
         public string? MeterSn { get; set; }
         public DateTime? DateActivated { get; set; }
 
@@ -19,9 +19,9 @@ namespace MeterPro.DATA.Models
 
     public class SubscriptionHistory
     {
-        public double? SubscriptionValue { get; set; }
-        public double? InitialValue { get; set; }
-        public double? Balance { get; set; }
+        public decimal SubscriptionValue { get; set; }
+        public decimal InitialValue { get; set; }
+        public decimal Balance { get; set; }
         public string? MeterSn { get; set; }
         public DateTime? DateActivated { get; set; }
         public DateTime? DateDeactivated { get; set; }
