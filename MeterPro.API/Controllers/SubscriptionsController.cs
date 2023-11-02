@@ -55,11 +55,10 @@ namespace MeterPro.API.Controllers
             {
                 var data = new SubscriptionHistory()
                 {
-                    Balance = model.SubscriptionValue,
-                    InitialValue = device.TotalUsageAccum,
+                    Balance = subscription.Balance,
+                    InitialValue = subscription.InitialValue,
                     DateActivated = subscription.DateActivated,
                     DateDeactivated = DateTime.Now,
-                    Active = false,
                     MeterSn = subscription.MeterSn,
                     SubscriptionValue=subscription.SubscriptionValue
                    
