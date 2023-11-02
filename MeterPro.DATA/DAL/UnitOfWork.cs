@@ -22,7 +22,21 @@ namespace MeterPro.DATA.DAL
         private MeterProRepository<TimeData> timeDataRepository;
         private MeterProRepository<Meter> meterDataRepository;
         private MeterProRepository<Subscription> subscriptionRepository;
+        private MeterProRepository<SubscriptionHistory> subscriptionHistoryRepository;
 
+        public MeterProRepository<SubscriptionHistory> SubscriptionHistoryRepository
+        {
+            get
+            {
+
+                if (this.subscriptionHistoryRepository == null)
+                {
+                    this.subscriptionHistoryRepository = new MeterProRepository<SubscriptionHistory>(_context);
+                }
+                return subscriptionHistoryRepository;
+            }
+        }
+        
         public MeterProRepository<Subscription> SubscriptionRepository
         {
             get

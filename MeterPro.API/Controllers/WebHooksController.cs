@@ -22,7 +22,7 @@ namespace MeterPro.API.Controllers
             commandController = new CommandsController(this.unitOfWork);
         }
 
-      
+
 
 
         [HttpPost]
@@ -76,8 +76,9 @@ namespace MeterPro.API.Controllers
                     var filterSub = Builders<Subscription>.Filter;
                     var querySub = filterSub.Eq(x => x.MeterSn, item.meterSn);
                     var subscription = await unitOfWork.SubscriptionRepository.GetAll(querySub);
-                    if (subscription.FirstOrDefault() == null)
+                    if (subscription.FirstOrDefault() == null && device!.PowerStatus == "ON")
                     {
+
                         //ShutOff meter
                         var command = new Command()
                         {
@@ -87,12 +88,24 @@ namespace MeterPro.API.Controllers
                             Value = new Value() { ForceSwitch = 0 }
                         };
                         await commandController.Fire(command);
+
                     }
                     else
                     {
-                        if (!(subscription!.FirstOrDefault()!.Active))
+
+
+                        var sub = subscription.FirstOrDefault();
+                        var reconciledValue = device!.TotalUsageAccum - sub!.InitialValue;
+                        sub.Balance = sub.Balance - reconciledValue;
+
+                        var subUpdate = Builders<Subscription>.Update
+                                        .Set("Balance", sub.Balance);
+                        await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
+                        await unitOfWork.CommitAsync();
+
+                        if (sub.Balance <= 0 && device.PowerStatus == "ON")
                         {
-                            //ShutOff meter
+
                             var command = new Command()
                             {
                                 MeterSn = item.meterSn,
@@ -101,43 +114,24 @@ namespace MeterPro.API.Controllers
                                 Value = new Value() { ForceSwitch = 0 }
                             };
                             await commandController.Fire(command);
+
                         }
                         else
                         {
-                            var sub=subscription.FirstOrDefault();
-                            var reconciledValue= sub!.InitialValue - device!.TotalUsageAccum;
-                            sub.Balance = sub.Balance-reconciledValue;
-
-                            var subUpdate = Builders<Subscription>.Update
-                                            .Set("Balance", sub.Balance);
-                            await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
-                            if (sub.Balance <= 0)
+                            if (sub.Balance > 0 && device.PowerStatus == "OFF")
                             {
                                 var command = new Command()
                                 {
                                     MeterSn = item.meterSn,
                                     GatewaySn = item.gatewaySn,
                                     Method = "FORCESWITCH",
-                                    Value = new Value() { ForceSwitch = 0 }
+                                    Value = new Value() { ForceSwitch = 1 }
                                 };
                                 await commandController.Fire(command);
                             }
-                            else
-                            {
-                                if(sub.Balance > 0 && device.PowerStatus=="OFF")
-                                {
-                                    var command = new Command()
-                                    {
-                                        MeterSn = item.meterSn,
-                                        GatewaySn = item.gatewaySn,
-                                        Method = "FORCESWITCH",
-                                        Value = new Value() { ForceSwitch = 1 }
-                                    };
-                                    await commandController.Fire(command);
-                                }
-                            }
                         }
                     }
+
 
                 }
             }
@@ -168,11 +162,10 @@ namespace MeterPro.API.Controllers
 
                 foreach (var device in devices)
                 {
-                    if (DateTimeHelper.HasNotReportedInLastTwoMinutes(Convert.ToDateTime(device.LastUpdated)))
+                    if (DateTimeHelper.HasNotReportedInLastTenMinutes(Convert.ToDateTime(device.LastUpdated)))
                     {
                      
                         var update = Builders<Meter>.Update
-                                        .Set("LastUpdated", DateTime.Now)
                                         .Set("Status", "OFFLINE");
                         await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device!.MeterSn!);
                         await unitOfWork.CommitAsync();

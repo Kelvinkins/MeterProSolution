@@ -8,11 +8,11 @@ namespace MeterPro.DATA.Utils
 {
     public static class DateTimeHelper
     {
-        public static bool HasNotReportedInLastTwoMinutes(DateTime lastUpdated)
+        public static bool HasNotReportedInLastTenMinutes(DateTime lastUpdated)
         {
             DateTime currentTime = DateTime.Now;
             TimeSpan timeDifference = currentTime - lastUpdated;
-            if (timeDifference.TotalMinutes > 2)
+            if (timeDifference.TotalMinutes > 10)
             {
                 return true; // Device has not reported in the last 10 minutes
             }

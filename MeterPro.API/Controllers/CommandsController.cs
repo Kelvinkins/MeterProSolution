@@ -138,7 +138,7 @@ namespace MeterPro.API.Controllers
                     var query = filter.Eq(x => x.MeterSn, command.MeterSn);
 
                     var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
-                    if (DateTimeHelper.HasNotReportedInLastTwoMinutes(Convert.ToDateTime(device!.LastUpdated)))
+                    if (DateTimeHelper.HasNotReportedInLastTenMinutes(Convert.ToDateTime(device!.LastUpdated)))
                     {
                         var update = Builders<Meter>.Update
                                     .Set("LastUpdated", DateTime.Now)
