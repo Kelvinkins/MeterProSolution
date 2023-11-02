@@ -53,7 +53,7 @@ namespace MeterPro.API.Controllers
                             MeterSn = item.meterSn,
                             Status = item.state,
                             PowerStatus = item.SwitchSta == "1" ? "ON" : "OFF",
-                            TotalUsageAccum = Convert.ToDouble(item.EPI)
+                            TotalUsageAccum = Convert.ToDecimal(item.EPI)
                         };
 
                         await unitOfWork.MeterDataRepository.Add(newDevice);
