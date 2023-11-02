@@ -111,6 +111,31 @@ namespace MeterPro.API.Controllers
                             var subUpdate = Builders<Subscription>.Update
                                             .Set("Balance", sub.Balance);
                             await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
+                            if (sub.Balance <= 0)
+                            {
+                                var command = new Command()
+                                {
+                                    MeterSn = item.meterSn,
+                                    GatewaySn = item.gatewaySn,
+                                    Method = "FORCESWITCH",
+                                    Value = new Value() { ForceSwitch = 0 }
+                                };
+                                await commandController.Fire(command);
+                            }
+                            else
+                            {
+                                if(sub.Balance > 0 && device.PowerStatus=="OFF")
+                                {
+                                    var command = new Command()
+                                    {
+                                        MeterSn = item.meterSn,
+                                        GatewaySn = item.gatewaySn,
+                                        Method = "FORCESWITCH",
+                                        Value = new Value() { ForceSwitch = 1 }
+                                    };
+                                    await commandController.Fire(command);
+                                }
+                            }
                         }
                     }
 
