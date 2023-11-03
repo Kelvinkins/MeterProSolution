@@ -44,7 +44,8 @@ namespace MeterPro.API.Controllers
                     InitialValue = device.TotalUsageAccum,
                     DateActivated = DateTime.Now,
                     MeterSn=model.MeterSn,
-                    SubscriptionValue=model.SubscriptionValue
+                    SubscriptionValue=model.SubscriptionValue,
+                    ValueTrend=device.TotalUsageAccum
                 };
 
                 await unitOfWork.SubscriptionRepository.Add(data);
@@ -70,6 +71,7 @@ namespace MeterPro.API.Controllers
 
                 var subUpdate = Builders<Subscription>.Update
                          .Set("InitialValue", device.TotalUsageAccum)
+                         .Set("ValueTrend", device.TotalUsageAccum)
                          .Set("DateActivated", DateTime.Now)
                          .Set("SubscriptionValue", model.SubscriptionValue)
                          .Set("Balance", Math.Round(subscription.Balance + model.SubscriptionValue,2));

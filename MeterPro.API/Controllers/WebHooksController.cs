@@ -95,13 +95,17 @@ namespace MeterPro.API.Controllers
 
 
                         var sub = subscription.FirstOrDefault();
-                        var reconciledValue = device!.TotalUsageAccum - sub!.InitialValue;
-                        sub.Balance = Math.Round(sub.Balance - reconciledValue,2);
+                        if (device!.TotalUsageAccum > sub!.ValueTrend)
+                        {
+                            var reconciledValue = device!.TotalUsageAccum - sub!.InitialValue;
+                            sub.Balance = Math.Round(sub.Balance - reconciledValue, 2);
 
-                        var subUpdate = Builders<Subscription>.Update
-                                        .Set("Balance", sub.Balance);
-                        await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
-                        await unitOfWork.CommitAsync();
+                            var subUpdate = Builders<Subscription>.Update
+                                            .Set("Balance", sub.Balance)
+                                            .Set("ValueTrend", device.TotalUsageAccum);
+                            await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
+                            await unitOfWork.CommitAsync();
+                        }
 
                         if (sub.Balance <= 0 && device.PowerStatus == "ON")
                         {
