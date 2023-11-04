@@ -98,7 +98,7 @@ namespace MeterPro.API.Controllers
                         if (device!.TotalUsageAccum > sub!.ValueTrend)
                         {
                             var reconciledValue = device!.TotalUsageAccum - sub!.InitialValue;
-                            sub.Balance = Math.Round(sub.Balance - reconciledValue, 2);
+                            sub.Balance = Math.Round(sub.SubscriptionValue - reconciledValue, 2);
 
                             var subUpdate = Builders<Subscription>.Update
                                             .Set("Balance", sub.Balance)
