@@ -73,7 +73,7 @@ namespace MeterPro.API.Controllers
                          .Set("InitialValue", device.TotalUsageAccum)
                          .Set("ValueTrend", device.TotalUsageAccum)
                          .Set("DateActivated", DateTime.Now)
-                         .Set("SubscriptionValue", subscription.SubscriptionValue+model.SubscriptionValue)
+                         .Set("SubscriptionValue", subscription.Balance + model.SubscriptionValue)
                          .Set("Balance", Math.Round(subscription.Balance + model.SubscriptionValue,2));
                 await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
                 await unitOfWork.CommitAsync();
