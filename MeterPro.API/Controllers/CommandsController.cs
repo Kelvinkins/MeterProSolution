@@ -16,6 +16,7 @@ using MongoDB.Driver;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MeterPro.DATA.Models;
+using MeterPro.DATA.Enums;
 
 namespace MeterPro.API.Controllers
 {
@@ -58,16 +59,7 @@ namespace MeterPro.API.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var filter = Builders<Meter>.Filter;
-                    var query = filter.Eq(x => x.MeterSn, command.MeterSn);
-
-                    var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
-                    device!.LastUpdated = DateTime.Now;
-                    var update = Builders<Meter>.Update
-                                    .Set("LastUpdated", device.LastUpdated)
-                                    .Set("PowerStatus", command?.Value!.ForceSwitch);
-                    await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
-                    // Parse and return the response content
+                    
                     return await response.Content.ReadAsStringAsync();
                 }
                 else
@@ -107,11 +99,24 @@ namespace MeterPro.API.Controllers
                 new KeyValuePair<string, string>("params", "cuwwbtodRuK/Zv1QiWvH2qVkUmZTX1+X1ieesX4QxCKnkgMZw8t/hppPj2kwiCXx")
             });
 
+            var filter = Builders<Meter>.Filter;
+            var query = filter.Eq(x => x.MeterSn, command!.MeterSn);
+
+            var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+            if ((device!.ShutOffBy == ShutOffBy.System || device!.ShutOffBy == ShutOffBy.Admin) && command!.Value!.ForceSwitch==0)
+            {
+                return Unauthorized($"Sorry, the device was shutOff by {device.ShutOffBy}");
+
+            }
             // Send the POST request
             HttpResponseMessage response = await _httpClient.PostAsync(apiUrl, formData);
 
             if (response.IsSuccessStatusCode)
             {
+                if (command!.ShutOffBy == null)
+                {
+                    command.ShutOffBy=ShutOffBy.User;
+                }
                 // Request was successful, you can handle the response here
                 string responseContent = await response.Content.ReadAsStringAsync();
                 // You can parse or process the response as needed.
@@ -120,13 +125,11 @@ namespace MeterPro.API.Controllers
                 var commandResponse=JsonConvert.DeserializeObject<CommandResponse>(responseContent);
                 if (commandResponse!.Success == "1")
                 {
-                    var filter = Builders<Meter>.Filter;
-                    var query = filter.Eq(x => x.MeterSn, command.MeterSn);
-
-                    var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+                   
 
                     var update = Builders<Meter>.Update
                                     .Set("LastUpdated", device!.LastUpdated)
+                                    .Set("ShutOffBy", command.ShutOffBy)
                                     .Set("PowerStatus", command.Value!.ForceSwitch == 1 ? "ON" : "OFF");
                      await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
                     await unitOfWork.CommitAsync();
@@ -134,10 +137,7 @@ namespace MeterPro.API.Controllers
                 }
                 else
                 {
-                    var filter = Builders<Meter>.Filter;
-                    var query = filter.Eq(x => x.MeterSn, command.MeterSn);
-
-                    var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+         
                     if (DateTimeHelper.HasNotReportedInLastTenMinutes(Convert.ToDateTime(device!.LastUpdated)))
                     {
                         var update = Builders<Meter>.Update

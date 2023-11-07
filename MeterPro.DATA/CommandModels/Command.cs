@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MeterPro.DATA.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace MeterPro.DATA.CommandModels
         public string? Method { get; set; }
         [JsonPropertyName("value")]
         public Value? Value { get; set; }
+        public ShutOffBy? ShutOffBy { get; set; }
     }
     public class Value
     {

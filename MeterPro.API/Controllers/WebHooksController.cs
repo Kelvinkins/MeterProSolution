@@ -1,5 +1,6 @@
 ﻿using MeterPro.DATA.CommandModels;
 using MeterPro.DATA.DAL;
+using MeterPro.DATA.Enums;
 using MeterPro.DATA.Models;
 using MeterPro.DATA.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -88,7 +89,12 @@ namespace MeterPro.API.Controllers
                             Value = new Value() { ForceSwitch = 0 }
                         };
                         await commandController.Fire(command);
-
+                        device.LastUpdated = DateTime.Now;
+                        var update = Builders<Meter>.Update
+                                        .Set("LastUpdated", device.LastUpdated)
+                                        .Set("ShutOffBy", ShutOffBy.System);
+                        await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                        await unitOfWork.CommitAsync();
                     }
                     else
                     {
@@ -118,7 +124,12 @@ namespace MeterPro.API.Controllers
                                 Value = new Value() { ForceSwitch = 0 }
                             };
                             await commandController.Fire(command);
-
+                            device.LastUpdated = DateTime.Now;
+                            var update = Builders<Meter>.Update
+                                            .Set("LastUpdated", device.LastUpdated)
+                                            .Set("ShutOffBy", ShutOffBy.System);
+                        await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                            await unitOfWork.CommitAsync();
                         }
                         else
                         {

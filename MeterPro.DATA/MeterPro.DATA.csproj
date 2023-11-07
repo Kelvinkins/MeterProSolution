@@ -14,6 +14,7 @@
     <Compile Include="DAL\MeterProRepository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DataContexts\MeterProDataContext.cs" />
+    <Compile Include="Enums\ShutOffBy.cs" />
     <Compile Include="Models\Meter.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\TimeData.cs" />
