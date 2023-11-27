@@ -123,15 +123,7 @@ namespace MeterPro.API.Controllers
             string apiUrl = "https://iot.acrel-eem.com/basic/currency/auth_user/login";
             string password = "1234567890123456";
             string offset = "1234567890123456";
-            //var login = new LoginModel()
-            //{
-            //    LoginName = "Myboard",
-            //    PassWord = "Tobe2023"
-            //};
-            //string jsonBody = "{\"LoginName\": \"Myboard\",\"PassWord\": \"Tobe2023\"}";
-
-            //var encryptedCred =Cryptography.Encrypt(jsonBody, password, offset);
-            // Create form data
+          
             var formData = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("params", "cuwwbtodRuK/Zv1QiWvH2qVkUmZTX1+X1ieesX4QxCKnkgMZw8t/hppPj2kwiCXx")
