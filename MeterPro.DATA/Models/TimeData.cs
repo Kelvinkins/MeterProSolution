@@ -203,4 +203,188 @@ namespace MeterPro.DATA.Models
         [JsonPropertyName("SwitchSta")]
         public string? SwitchSta { get; set; }
     }
+
+
+  
+
+    public class ReportedData
+    {
+        public int Rssi { get; set; }
+        public  DeviceData DeviceData { get; set; }
+    }
+    public class DeviceData
+    {
+        [JsonPropertyName("State")]
+        public string? State { get; set; }
+
+        [JsonPropertyName("Ua")]
+        public string? Ua { get; set; }
+
+        [JsonPropertyName("Ub")]
+        public string? Ub { get; set; }
+
+        [JsonPropertyName("Uc")]
+        public string? Uc { get; set; }
+
+        [JsonPropertyName("Ia")]
+        public string? Ia { get; set; }
+
+        [JsonPropertyName("Ib")]
+        public string? Ib { get; set; }
+
+        [JsonPropertyName("Ic")]
+        public string? Ic { get; set; }
+
+        [JsonPropertyName("Pa")]
+        public string? Pa { get; set; }
+
+        [JsonPropertyName("Pb")]
+        public string? Pb { get; set; }
+
+        [JsonPropertyName("Pc")]
+        public string? Pc { get; set; }
+
+        [JsonPropertyName("P")]
+        public string? P { get; set; }
+
+        [JsonPropertyName("Qa")]
+        public string? Qa { get; set; }
+
+        [JsonPropertyName("Qb")]
+        public string? Qb { get; set; }
+
+        [JsonPropertyName("Qc")]
+        public string? Qc { get; set; }
+
+        [JsonPropertyName("PFa")]
+        public string? PFa { get; set; }
+
+        [JsonPropertyName("PFb")]
+        public string? PFb { get; set; }
+
+        [JsonPropertyName("PFc")]
+        public string? PFc { get; set; }
+
+        [JsonPropertyName("PF")]
+        public string? PF { get; set; }
+
+        [JsonPropertyName("PT")]
+        public string? PT { get; set; }
+
+        [JsonPropertyName("CT")]
+        public string? CT { get; set; }
+
+        [JsonPropertyName("EPI")]
+        public string? EPI { get; set; }
+
+        [JsonPropertyName("EPIJ")]
+        public string? EPIJ { get; set; }
+
+        [JsonPropertyName("EPIF")]
+        public string? EPIF { get; set; }
+
+        [JsonPropertyName("EPIP")]
+        public string? EPIP { get; set; }
+
+        [JsonPropertyName("EPIG")]
+        public string? EPIG { get; set; }
+
+        [JsonPropertyName("Balance")]
+        public string? Balance { get; set; }
+
+        [JsonPropertyName("BuyTimes")]
+        public string? BuyTimes { get; set; }
+
+        [JsonPropertyName("LoseTimes1")]
+        public string? LoseTimes1 { get; set; }
+
+        [JsonPropertyName("CommitTimes")]
+        public string? CommitTimes { get; set; }
+
+        [JsonPropertyName("ControlMode")]
+        public string? ControlMode { get; set; }
+
+        [JsonPropertyName("ControlMode1")]
+        public string? ControlMode1 { get; set; }
+
+        [JsonPropertyName("ControlMode2")]
+        public string? ControlMode2 { get; set; }
+
+        [JsonPropertyName("ControlMode3")]
+        public string? ControlMode3 { get; set; }
+
+        [JsonPropertyName("LoseMode")]
+        public string? LoseMode { get; set; }
+
+        [JsonPropertyName("LoseMode1")]
+        public string? LoseMode1 { get; set; }
+
+        [JsonPropertyName("LoseMode2")]
+        public string? LoseMode2 { get; set; }
+
+        [JsonPropertyName("LoseMode3")]
+        public string? LoseMode3 { get; set; }
+
+        [JsonPropertyName("TimeMode")]
+        public string? TimeMode { get; set; }
+
+        [JsonPropertyName("TimeMode1")]
+        public string? TimeMode1 { get; set; }
+
+        [JsonPropertyName("TimeMode2")]
+        public string? TimeMode2 { get; set; }
+
+        [JsonPropertyName("TimeMode3")]
+        public string? TimeMode3 { get; set; }
+
+        [JsonPropertyName("PrepaidSta")]
+        public string? PrepaidSta { get; set; }
+
+        [JsonPropertyName("PrepaidSta1")]
+        public string? PrepaidSta1 { get; set; }
+
+        [JsonPropertyName("PrepaidSta2")]
+        public string? PrepaidSta2 { get; set; }
+
+        [JsonPropertyName("PrepaidSta3")]
+        public string? PrepaidSta3 { get; set; }
+
+        [JsonPropertyName("SwitchSta1")]
+        public string? SwitchSta1 { get; set; }
+
+        [JsonPropertyName("SwitchSta2")]
+        public string? SwitchSta2 { get; set; }
+
+        [JsonPropertyName("SwitchSta3")]
+        public string? SwitchSta3 { get; set; }
+
+        [JsonPropertyName("SwitchSta")]
+        public string? SwitchSta { get; set; }
+
+        [JsonPropertyName("OweMoney")]
+        public string? OweMoney { get; set; }
+
+        [JsonPropertyName("AlarmA")]
+        public string? AlarmA { get; set; }
+
+        [JsonPropertyName("AlarmB")]
+        public string? AlarmB { get; set; }
+
+        [JsonPropertyName("MEPIMD")]
+        public string? MEPIMD { get; set; }
+    }
+
+
+    public class UpdateMessage
+    {
+        public int MessageId { get; set; }
+        public string Method { get; set; }
+        public string SerialNumber { get; set; }
+        public long Timestamp { get; set; }
+        public long SendTime { get; set; }
+        public int Version { get; set; }
+        [JsonPropertyName("Reported")]
+        public ReportedData Reported { get; set; }
+    }
+
 }

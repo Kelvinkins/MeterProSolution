@@ -23,6 +23,21 @@ namespace MeterPro.DATA.DAL
         private MeterProRepository<Meter> meterDataRepository;
         private MeterProRepository<Subscription> subscriptionRepository;
         private MeterProRepository<SubscriptionHistory> subscriptionHistoryRepository;
+        private MeterProRepository<DeviceData> deviceDataRepository;
+
+
+        public MeterProRepository<DeviceData> DeviceDataRepository
+        {
+            get
+            {
+
+                if (this.deviceDataRepository == null)
+                {
+                    this.deviceDataRepository = new MeterProRepository<DeviceData>(_context);
+                }
+                return deviceDataRepository;
+            }
+        }
 
         public MeterProRepository<SubscriptionHistory> SubscriptionHistoryRepository
         {

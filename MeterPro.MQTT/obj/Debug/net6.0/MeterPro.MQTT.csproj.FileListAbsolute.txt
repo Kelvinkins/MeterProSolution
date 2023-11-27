@@ -1,0 +1,17 @@
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\bin\Debug\net6.0\MeterPro.MQTT.deps.json
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\bin\Debug\net6.0\MeterPro.MQTT.dll
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\bin\Debug\net6.0\MeterPro.MQTT.pdb
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.csproj.AssemblyReference.cache
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.AssemblyInfoInputs.cache
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.AssemblyInfo.cs
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.csproj.CoreCompileInputs.cache
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.dll
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\refint\MeterPro.MQTT.dll
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.pdb
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\ref\MeterPro.MQTT.dll
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\bin\Debug\net6.0\MeterPro.MQTT.runtimeconfig.json
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\bin\Debug\net6.0\MeterPro.DATA.dll
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\bin\Debug\net6.0\MeterPro.DATA.pdb
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.csproj.CopyComplete
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.MQTT\obj\Debug\net6.0\MeterPro.MQTT.genruntimeconfig.cache

@@ -1,4 +1,5 @@
 ﻿using MeterPro.DATA.Enums;
+using MongoDB.Driver.Core.WireProtocol.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,4 +33,37 @@ namespace MeterPro.DATA.CommandModels
         public string? LoginName { get; set; }
         public string? PassWord { get; set; }
     }
+
+
+    public class SwitchCommand
+
+    {
+        [JsonPropertyName("method")]
+        public string? Method { get; set; }
+
+        [JsonPropertyName("msgid")]
+        public string? msgid { get; set; }
+        [JsonPropertyName("payload")]
+        public Payload? payload { get; set; }
+        [JsonPropertyName("sn")]
+        public string? sn { get; set; }
+        [JsonPropertyName("timestamp")]
+        public long timestamp { get; set; }
+    }
+
+    public class Payload
+    {
+        [JsonPropertyName("addr")]
+        public string? addr { get; set; }
+        [JsonPropertyName("do1")]
+        public int do1 { get; set; }
+        [JsonPropertyName("meterName")]
+        public string? meterName { get; set; }
+        [JsonPropertyName("method")]
+        public string? method { get; set; }
+        [JsonPropertyName("ForceSwitch")]
+        public int ForceSwitch { get; set; }
+
+    }
+   
 }

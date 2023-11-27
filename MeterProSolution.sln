@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterPro.API", "MeterPro.API\MeterPro.API.csproj", "{8751AE89-ED14-41A1-8B4F-06497910D814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeterPro.API", "MeterPro.API\MeterPro.API.csproj", "{8751AE89-ED14-41A1-8B4F-06497910D814}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterPro.DATA", "MeterPro.DATA\MeterPro.DATA.csproj", "{5E471803-4F7D-4ECC-9CC5-CA27C0673026}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeterPro.DATA", "MeterPro.DATA\MeterPro.DATA.csproj", "{5E471803-4F7D-4ECC-9CC5-CA27C0673026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterPro.MQTT", "MeterPro.MQTT\MeterPro.MQTT.csproj", "{F9CA2516-5735-42D2-8BB7-B25918C89F8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5E471803-4F7D-4ECC-9CC5-CA27C0673026}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E471803-4F7D-4ECC-9CC5-CA27C0673026}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E471803-4F7D-4ECC-9CC5-CA27C0673026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9CA2516-5735-42D2-8BB7-B25918C89F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9CA2516-5735-42D2-8BB7-B25918C89F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9CA2516-5735-42D2-8BB7-B25918C89F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9CA2516-5735-42D2-8BB7-B25918C89F8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

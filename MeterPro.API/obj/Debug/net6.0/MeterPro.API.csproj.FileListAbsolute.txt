@@ -86,3 +86,6 @@ C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.API\obj\De
 C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.API\obj\Debug\net6.0\MeterPro.API.pdb
 C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.API\obj\Debug\net6.0\MeterPro.API.genruntimeconfig.cache
 C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.API\obj\Debug\net6.0\ref\MeterPro.API.dll
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.API\bin\Debug\net6.0\MeterPro.MQTT.dll
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.API\bin\Debug\net6.0\MeterPro.MQTT.pdb
+C:\Users\Kingsley Samuel\Documents\Projects\MeterProSolution\MeterPro.API\bin\Debug\net6.0\M2Mqtt.Net.dll

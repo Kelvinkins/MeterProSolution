@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="AuthModels\LoginModel.cs" />
     <Compile Include="AuthModels\TokenResponse.cs" />
     <Compile Include="CommandModels\Command.cs" />
     <Compile Include="CommandModels\CommandResponse.cs" />
@@ -22,6 +23,7 @@
     <Compile Include="Utils\Cryptography.cs" />
     <Compile Include="Utils\DateTimeHelper.cs" />
     <Compile Include="ViewModels\SubscriptionVm.cs" />
+    <Compile Include="ViewModels\TopicSubVm.cs" />
   </ItemGroup>
 
   <ItemGroup>

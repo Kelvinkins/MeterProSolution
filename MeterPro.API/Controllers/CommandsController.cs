@@ -17,6 +17,9 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MeterPro.DATA.Models;
 using MeterPro.DATA.Enums;
+using MeterPro.MQTT.Logics;
+using MeterPro.DATA.ViewModels;
+using System.ComponentModel.Design;
 
 namespace MeterPro.API.Controllers
 {
@@ -25,6 +28,7 @@ namespace MeterPro.API.Controllers
     public class CommandsController : ControllerBase
     {
         private readonly UnitOfWork unitOfWork;
+
         public CommandsController(UnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
@@ -74,11 +78,45 @@ namespace MeterPro.API.Controllers
                 return "An error occurred: " + ex.Message;
             }
         }
-    
 
 
+        [HttpPost]
+        [Route("FireV2")]
+        public async Task<IActionResult> FireV2([FromBody] Command? command)
+        {
+            //{"method":"operate","msgid":"798404116796256256",
+            //"payload":{"addr":"20220816103100","do1":1,
+            //"meterName":"DDSY1352-IOT","method":"FORCESWITCH",
+            //"ForceSwitch":1},"sn":"20220816103100",
+            //"timestamp":1679465985}
+            var cmd = new SwitchCommand()
+            {
+                Method = "operate",
+                msgid = Guid.NewGuid().ToString(),
+                sn = command.MeterSn,
+                timestamp = DateTime.Now.Ticks,
+                payload = new Payload()
+                {
+                    addr = command.MeterSn,
+                    do1 = Convert.ToInt32(command.Value!.ForceSwitch),
+                    ForceSwitch = Convert.ToInt32(command.Value!.ForceSwitch),
+                    meterName = "DDSY1352-IOT",
+                    method = "FORCESWITCH"
 
-    [HttpPost]
+                }
+            };
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            var data = JsonConvert.SerializeObject(cmd, settings: serializerSettings);
+            BrokerService.Subscribe(BrokerService.client, $"indicate/server/NzMyNDQ5MDQ1ODk4MTI5NDA4/{command.MeterSn}");//Subscribe to data topic
+            BrokerService.SendCommand(BrokerService.client, $"indicate/server/NzMyNDQ5MDQ1ODk4MTI5NDA4/{command.MeterSn}",data);
+            return Ok();
+            }
+        
+
+        [HttpPost]
         [Route("Fire")]
         public async Task<IActionResult> Fire([FromBody] Command? command)
         {
@@ -157,6 +195,16 @@ namespace MeterPro.API.Controllers
                 // Request failed, handle the error
                 return BadRequest("Request failed with status code: " + response.StatusCode);
             }
+        }
+
+
+        [HttpPost]
+        [Route("Subscribe")]
+        public  IActionResult Subscribe(TopicSubVm model)
+        {
+            BrokerService.LoginDevice(model.MeterSn!);
+            BrokerService.Subscribe(BrokerService.client, $"data/up/NzMyNDQ5MDQ1ODk4MTI5NDA4/{model.MeterSn}");//Subscribe to data topic
+            return Ok("Subscribed successfully, please check for data");
         }
     }
 }

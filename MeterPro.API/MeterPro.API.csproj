@@ -10,6 +10,7 @@
   <ItemGroup>
     <Compile Include="Controllers\CommandsController.cs" />
     <Compile Include="Controllers\DashboardsController.cs" />
+    <Compile Include="Controllers\ListenerController.cs" />
     <Compile Include="Controllers\MetersController.cs" />
     <Compile Include="Controllers\SubscriptionsController.cs" />
     <Compile Include="Controllers\WebHooksController.cs" />
@@ -35,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MeterPro.DATA\MeterPro.DATA.csproj" />
+    <ProjectReference Include="..\MeterPro.MQTT\MeterPro.MQTT.csproj" />
   </ItemGroup>
 
 </Project>

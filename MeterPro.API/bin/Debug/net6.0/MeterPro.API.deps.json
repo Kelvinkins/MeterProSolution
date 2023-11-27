@@ -9,6 +9,7 @@
       "MeterPro.API/1.0.0": {
         "dependencies": {
           "MeterPro.DATA": "1.0.0",
+          "MeterPro.MQTT": "1.0.0",
           "Microsoft.EntityFrameworkCore": "6.0.23",
           "Microsoft.EntityFrameworkCore.Design": "6.0.23",
           "Microsoft.EntityFrameworkCore.Relational": "6.0.23",
@@ -75,6 +76,14 @@
           "lib/netstandard2.0/Humanizer.dll": {
             "assemblyVersion": "2.8.0.0",
             "fileVersion": "2.8.26.1919"
+          }
+        }
+      },
+      "M2Mqtt/4.3.0": {
+        "runtime": {
+          "lib/net45/M2Mqtt.Net.dll": {
+            "assemblyVersion": "4.3.0.0",
+            "fileVersion": "4.3.0.0"
           }
         }
       },
@@ -730,6 +739,16 @@
         "runtime": {
           "MeterPro.DATA.dll": {}
         }
+      },
+      "MeterPro.MQTT/1.0.0": {
+        "dependencies": {
+          "M2Mqtt": "4.3.0",
+          "MeterPro.DATA": "1.0.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "MeterPro.MQTT.dll": {}
+        }
       }
     }
   },
@@ -773,6 +792,13 @@
       "sha512": "sha512-OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "path": "humanizer.core/2.8.26",
       "hashPath": "humanizer.core.2.8.26.nupkg.sha512"
+    },
+    "M2Mqtt/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2A1uM20uxuovQKPA0dkZUqD9gUpIMaX7KxdLiVM7IEXdPRL709hGuudHnvlDxm2/6b2LcOjshrYGVG9vdpipag==",
+      "path": "m2mqtt/4.3.0",
+      "hashPath": "m2mqtt.4.3.0.nupkg.sha512"
     },
     "Microsoft.CSharp/4.7.0": {
       "type": "package",
@@ -1230,6 +1256,11 @@
       "hashPath": "zstdsharp.port.0.6.2.nupkg.sha512"
     },
     "MeterPro.DATA/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MeterPro.MQTT/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
