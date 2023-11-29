@@ -156,6 +156,7 @@ namespace MeterPro.MQTT.Logics
                 {
                     var data = JsonConvert.DeserializeObject<UpdateMessage>(payload);
                     var deviceData = data!.Reported.DeviceData;
+                    deviceData.MeterSn = meterSn;
                     SendDeviceData(deviceData);
                 }
                 catch (Exception ex)

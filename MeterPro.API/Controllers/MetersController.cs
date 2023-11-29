@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using uPLibrary.Networking.M2Mqtt;
 using MeterPro.DATA.CommandModels;
 using MeterPro.DATA.AuthModels;
+using MeterPro.DATA.Enums;
 
 namespace MeterPro.API.Controllers
 {
@@ -17,11 +18,14 @@ namespace MeterPro.API.Controllers
     public class MetersController : ControllerBase
     {
 
-        private readonly UnitOfWork _unitOfWork;
+        private readonly UnitOfWork unitOfWork;
+        private readonly CommandsController commandController;
 
         public MetersController(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
+            commandController = new CommandsController(this.unitOfWork);
+
         }
 
         [HttpPost]
@@ -29,8 +33,113 @@ namespace MeterPro.API.Controllers
 
         public async Task<IActionResult> AddDeviceData(DeviceData deviceData)
         {
-            await _unitOfWork.DeviceDataRepository.Add(deviceData);
-            await _unitOfWork.CommitAsync();
+
+            var filter = Builders<Meter>.Filter;
+            var query = filter.Eq(x => x.MeterSn, deviceData.MeterSn);
+
+            var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+            if (device == null)
+            {
+                //Enroll the device
+                var newDevice = new Meter()
+                {
+                    DateEnrolled = DateTime.Now,
+                    LastUpdated = DateTime.Now,
+                    Latitude = 3.0000,
+                    Longitude = 6.0000,
+                    MeterSn = deviceData.MeterSn,
+                    Status = deviceData.State,
+                    PowerStatus = deviceData.SwitchSta == "1" ? "ON" : "OFF",
+                    TotalUsageAccum = Convert.ToDecimal(deviceData.EPI)
+                };
+
+                await unitOfWork.MeterDataRepository.Add(newDevice);
+                await unitOfWork.CommitAsync();
+            }
+            else
+            {
+                device.LastUpdated = DateTime.Now;
+                var update = Builders<Meter>.Update
+                                .Set("LastUpdated", device.LastUpdated)
+                                .Set("PowerStatus", deviceData.SwitchSta == "1" ? "ON" : "OFF")
+                                .Set("TotalUsageAccum", Convert.ToDouble(deviceData.EPI));
+                await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                await unitOfWork.CommitAsync();
+
+            }
+            await unitOfWork.DeviceDataRepository.Add(deviceData);
+            await unitOfWork.CommitAsync();
+
+            var filterSub = Builders<Subscription>.Filter;
+            var querySub = filterSub.Eq(x => x.MeterSn, deviceData.MeterSn);
+            var subscription = await unitOfWork.SubscriptionRepository.GetAll(querySub);
+            if (subscription.FirstOrDefault() == null && device!.PowerStatus == "ON")
+            {
+
+                //ShutOff meter
+                var command = new Command()
+                {
+                    MeterSn = deviceData.MeterSn,
+                    Method = "FORCESWITCH",
+                    Value = new Value() { ForceSwitch = 0 }
+                };
+                await commandController.FireV2(command);
+                device.LastUpdated = DateTime.Now;
+                var update = Builders<Meter>.Update
+                                .Set("LastUpdated", device.LastUpdated)
+                                .Set("ShutOffBy", ShutOffBy.System);
+                await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                await unitOfWork.CommitAsync();
+            }
+            else
+            {
+
+
+                var sub = subscription.FirstOrDefault();
+                if (device!.TotalUsageAccum > sub!.ValueTrend)
+                {
+                    var reconciledValue = device!.TotalUsageAccum - sub!.InitialValue;
+                    sub.Balance = Math.Round(sub.SubscriptionValue - reconciledValue, 2);
+
+                    var subUpdate = Builders<Subscription>.Update
+                                    .Set("Balance", sub.Balance)
+                                    .Set("ValueTrend", device.TotalUsageAccum);
+                    await unitOfWork.SubscriptionRepository.Update(subUpdate, "MeterSn", device.MeterSn!);
+                    await unitOfWork.CommitAsync();
+                }
+
+                if (sub.Balance <= 0 && device.PowerStatus == "ON")
+                {
+
+                    var command = new Command()
+                    {
+                        MeterSn = deviceData.MeterSn,
+                         Method = "FORCESWITCH",
+                        Value = new Value() { ForceSwitch = 0 }
+                    };
+                    await commandController.FireV2(command);
+                    device.LastUpdated = DateTime.Now;
+                    var update = Builders<Meter>.Update
+                                    .Set("LastUpdated", device.LastUpdated)
+                                    .Set("ShutOffBy", ShutOffBy.System);
+                    await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                    await unitOfWork.CommitAsync();
+                }
+                else
+                {
+                    if (sub.Balance > 0 && device.PowerStatus == "OFF")
+                    {
+                        var command = new Command()
+                        {
+                            MeterSn = deviceData.MeterSn,
+                            Method = "FORCESWITCH",
+                            Value = new Value() { ForceSwitch = 1 }
+                        };
+                        await commandController.FireV2(command);
+                    }
+                }
+            }
+
             return Ok();
         }
 
@@ -93,7 +202,7 @@ namespace MeterPro.API.Controllers
         {
             var filter = Builders<Meter>.Filter;
             var query = filter.Empty;
-            var meters = await _unitOfWork.MeterDataRepository.GetAll(query);
+            var meters = await unitOfWork.MeterDataRepository.GetAll(query);
             return Ok(meters);
         }
 
@@ -103,7 +212,7 @@ namespace MeterPro.API.Controllers
         {
             var filter = Builders<TimeData>.Filter;
             var query = filter.Eq(x => x.meterSn,meterSn);
-            var timeDatas = await _unitOfWork.TimeDataRepository.GetAll(query);
+            var timeDatas = await unitOfWork.TimeDataRepository.GetAll(query);
             return Ok(timeDatas);
         }
 
