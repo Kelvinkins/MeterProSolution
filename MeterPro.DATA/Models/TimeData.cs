@@ -372,7 +372,7 @@ namespace MeterPro.DATA.Models
 
         [JsonPropertyName("MEPIMD")]
         public string? MEPIMD { get; set; }
-        [JsonPropertyName("MeterSn")]
+        [JsonPropertyName("meterSn")]
         public string? MeterSn { get; set; }
     }
 

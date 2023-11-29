@@ -156,7 +156,8 @@ namespace MeterPro.MQTT.Logics
                 {
                     var data = JsonConvert.DeserializeObject<UpdateMessage>(payload);
                     var deviceData = data!.Reported.DeviceData;
-                    SendDeviceData(deviceData,meterSn);
+                    deviceData.MeterSn = meterSn;
+                    SendDeviceData(deviceData);
                 }
                 catch (Exception ex)
                 {
@@ -169,7 +170,7 @@ namespace MeterPro.MQTT.Logics
         private static HttpClient _httpClient = new HttpClient();
 
 
-        private static async Task<bool> SendDeviceData(DeviceData data,string meterSn)
+        private static async Task<bool> SendDeviceData(DeviceData data)
         {
             try
             {
@@ -182,7 +183,7 @@ namespace MeterPro.MQTT.Logics
                 var requestContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
                 // Send the POST request
-                HttpResponseMessage response = await _httpClient.PostAsync($"https://meterproapi.azurewebsites.net/api/Meters/AddDeviceData?meterSn={meterSn}", requestContent);
+                HttpResponseMessage response = await _httpClient.PostAsync("https://meterproapi.azurewebsites.net/api/Meters/AddDeviceData", requestContent);
 
                 if (response.IsSuccessStatusCode)
                 {
