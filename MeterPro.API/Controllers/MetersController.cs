@@ -31,7 +31,7 @@ namespace MeterPro.API.Controllers
         [HttpPost]
         [Route("AddDeviceData")]
 
-        public async Task<IActionResult> AddDeviceData(DeviceData deviceData)
+        public async Task<IActionResult> AddDeviceData(DeviceData deviceData,[FromQuery]string meterSn)
         {
 
             var filter = Builders<Meter>.Filter;
@@ -67,6 +67,7 @@ namespace MeterPro.API.Controllers
                 await unitOfWork.CommitAsync();
 
             }
+            deviceData.MeterSn = meterSn;
             await unitOfWork.DeviceDataRepository.Add(deviceData);
             await unitOfWork.CommitAsync();
 
