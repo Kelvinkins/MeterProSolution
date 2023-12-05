@@ -210,10 +210,10 @@ namespace MeterPro.API.Controllers
         [Route("GetMeterLogs")]
         public async Task<IActionResult> GetMeterLogs(string meterSn)
         {
-            var filter = Builders<TimeData>.Filter;
-            var query = filter.Eq(x => x.meterSn,meterSn);
-            var timeDatas = await unitOfWork.TimeDataRepository.GetAll(query);
-            return Ok(timeDatas);
+            var filter = Builders<DeviceData>.Filter;
+            var query = filter.Eq(x => x.MeterSn,meterSn);
+            var deviceData = await unitOfWork.DeviceDataRepository.GetAll(query);
+            return Ok(deviceData);
         }
 
 
