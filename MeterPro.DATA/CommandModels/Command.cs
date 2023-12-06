@@ -14,9 +14,7 @@ namespace MeterPro.DATA.CommandModels
         [JsonPropertyName("meterSn")]
         public string? MeterSn { get; set; }
         [JsonPropertyName("gatewaySn")]
-
-        public string? GatewaySn { get; set; }
-        [JsonPropertyName("method")]
+ 
         public string? Method { get; set; }
         [JsonPropertyName("value")]
         public Value? Value { get; set; }

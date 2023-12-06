@@ -84,36 +84,96 @@ namespace MeterPro.API.Controllers
         [Route("FireV2")]
         public async Task<IActionResult> FireV2([FromBody] Command? command)
         {
-            //{"method":"operate","msgid":"798404116796256256",
-            //"payload":{"addr":"20220816103100","do1":1,
-            //"meterName":"DDSY1352-IOT","method":"FORCESWITCH",
-            //"ForceSwitch":1},"sn":"20220816103100",
-            //"timestamp":1679465985}
-            var cmd = new SwitchCommand()
+            try
             {
-                Method = "operate",
-                msgid = Guid.NewGuid().ToString(),
-                sn = command.MeterSn,
-                timestamp = DateTime.Now.Ticks,
-                payload = new Payload()
+                var filter = Builders<Meter>.Filter;
+                var query = filter.Eq(x => x.MeterSn, command!.MeterSn);
+
+                var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
+                if ((device!.ShutOffBy == ShutOffBy.System || device!.ShutOffBy == ShutOffBy.Admin) && command!.Value!.ForceSwitch == 0)
                 {
-                    addr = command.MeterSn,
-                    do1 = Convert.ToInt32(command.Value!.ForceSwitch),
-                    ForceSwitch = Convert.ToInt32(command.Value!.ForceSwitch),
-                    meterName = "DDSY1352-IOT",
-                    method = "FORCESWITCH"
+                    return Unauthorized($"Sorry, the device was shutOff by {device.ShutOffBy}");
 
                 }
-            };
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-            var data = JsonConvert.SerializeObject(cmd, settings: serializerSettings);
-            BrokerService.Subscribe(BrokerService.client, $"indicate/server/NzMyNDQ5MDQ1ODk4MTI5NDA4/{command.MeterSn}");//Subscribe to data topic
-            BrokerService.SendCommand(BrokerService.client, $"indicate/server/NzMyNDQ5MDQ1ODk4MTI5NDA4/{command.MeterSn}",data);
-            return Ok();
+
+
+                var cmd = new SwitchCommand()
+                {
+                    Method = "operate",
+                    msgid = Guid.NewGuid().ToString(),
+                    sn = command!.MeterSn,
+                    timestamp = DateTime.Now.Ticks,
+                    payload = new Payload()
+                    {
+                        addr = command.MeterSn,
+                        do1 = Convert.ToInt32(command.Value!.ForceSwitch),
+                        ForceSwitch = Convert.ToInt32(command.Value!.ForceSwitch),
+                        meterName = "DDSY1352-IOT",
+                        method = "FORCESWITCH"
+
+                    }
+                };
+                var serializerSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+                var data = JsonConvert.SerializeObject(cmd, settings: serializerSettings);
+                BrokerService.Subscribe(BrokerService.client, $"indicate/server/NzMyNDQ5MDQ1ODk4MTI5NDA4/{command.MeterSn}");//Subscribe to data topic
+                BrokerService.SendCommand(BrokerService.client, $"indicate/server/NzMyNDQ5MDQ1ODk4MTI5NDA4/{command.MeterSn}", data);
+                var commandResponse = new CommandResponse()
+                {
+                    data = data,
+                    ErrorCode = "No Error",
+                    ErrorMsg = "No Errors",
+                    Success = "1"
+
+                };
+
+                if (command!.ShutOffBy == null)
+                {
+                    command.ShutOffBy = ShutOffBy.User;
+                }
+
+                if (commandResponse!.Success == "1")
+                {
+
+
+                    var update = Builders<Meter>.Update
+                                    .Set("LastUpdated", device!.LastUpdated)
+                                    .Set("ShutOffBy", command.ShutOffBy)
+                                    .Set("PowerStatus", command.Value!.ForceSwitch == 1 ? "ON" : "OFF");
+                    await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device.MeterSn!);
+                    await unitOfWork.CommitAsync();
+
+                }
+                else
+                {
+
+                    if (DateTimeHelper.HasNotReportedInLastTenMinutes(Convert.ToDateTime(device!.LastUpdated)))
+                    {
+                        var update = Builders<Meter>.Update
+                                    .Set("LastUpdated", DateTime.Now)
+                                    .Set("Status", "OFFLINE");
+                        await unitOfWork.MeterDataRepository.Update(update, "MeterSn", device!.MeterSn!);
+                        await unitOfWork.CommitAsync();
+                    }
+                }
+                return Ok(commandResponse);
             }
+            catch (Exception ex)
+            {
+                var response = new CommandResponse()
+                {
+                    data = ex,
+                    ErrorCode = ex.HResult.ToString(),
+                    ErrorMsg = ex.Message,
+                    Success = "0"
+
+                };
+                return Ok(response);
+
+            }
+        }
         
 
         [HttpPost]

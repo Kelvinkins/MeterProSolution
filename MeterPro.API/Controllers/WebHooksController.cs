@@ -84,7 +84,6 @@ namespace MeterPro.API.Controllers
                         var command = new Command()
                         {
                             MeterSn = item.meterSn,
-                            GatewaySn = item.gatewaySn,
                             Method = "FORCESWITCH",
                             Value = new Value() { ForceSwitch = 0 }
                         };
@@ -119,7 +118,6 @@ namespace MeterPro.API.Controllers
                             var command = new Command()
                             {
                                 MeterSn = item.meterSn,
-                                GatewaySn = item.gatewaySn,
                                 Method = "FORCESWITCH",
                                 Value = new Value() { ForceSwitch = 0 }
                             };
@@ -138,7 +136,6 @@ namespace MeterPro.API.Controllers
                                 var command = new Command()
                                 {
                                     MeterSn = item.meterSn,
-                                    GatewaySn = item.gatewaySn,
                                     Method = "FORCESWITCH",
                                     Value = new Value() { ForceSwitch = 1 }
                                 };
