@@ -90,7 +90,7 @@ namespace MeterPro.API.Controllers
                 var query = filter.Eq(x => x.MeterSn, command!.MeterSn);
 
                 var device = unitOfWork.MeterDataRepository.GetAll(query).Result.FirstOrDefault();
-                if ((device!.ShutOffBy == ShutOffBy.System || device!.ShutOffBy == ShutOffBy.Admin) && command!.Value!.ForceSwitch == 0)
+                if (((device!.ShutOffBy == ShutOffBy.System || device!.ShutOffBy == ShutOffBy.Admin) && device.PowerStatus=="ON") && command!.Value!.ForceSwitch == 0)
                 {
                     return Unauthorized($"Sorry, the device was shutOff by {device.ShutOffBy}");
 
