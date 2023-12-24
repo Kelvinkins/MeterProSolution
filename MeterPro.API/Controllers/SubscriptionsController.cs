@@ -118,7 +118,7 @@ namespace MeterPro.API.Controllers
             var filter = Builders<SubscriptionHistory>.Filter;
             var query = filter.Eq(x => x.Owner, owner);
             var data = await unitOfWork.SubscriptionHistoryRepository.GetAll(query);
-            return Ok(data);
+            return Ok(data.Take(5));
         }
 
     }
