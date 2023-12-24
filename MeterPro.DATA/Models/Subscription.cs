@@ -27,6 +27,8 @@ namespace MeterPro.DATA.Models
         public string? MeterSn { get; set; }
         public DateTime? DateActivated { get; set; }
         public DateTime? DateDeactivated { get; set; }
+        public string? Owner { get; set; }
+
 
 
     }

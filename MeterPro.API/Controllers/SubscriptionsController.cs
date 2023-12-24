@@ -111,5 +111,15 @@ namespace MeterPro.API.Controllers
             return Ok(aggregateBalance);
         }
 
+        [HttpGet]
+        [Route("SubscriptionStatistics")]
+        public async Task<IActionResult> SubscriptionStatistics(string owner)
+        {
+            var filter = Builders<SubscriptionHistory>.Filter;
+            var query = filter.Eq(x => x.Owner, owner);
+            var data = await unitOfWork.SubscriptionHistoryRepository.GetAll(query);
+            return Ok(data);
+        }
+
     }
 }
