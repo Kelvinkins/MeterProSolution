@@ -14,6 +14,7 @@ namespace MeterPro.DATA.Models
         public string? MeterSn { get; set; }
         public DateTime? DateActivated { get; set; }
         public decimal ValueTrend { get; set; }
+        public string? Owner { get; set; }
 
 
     }

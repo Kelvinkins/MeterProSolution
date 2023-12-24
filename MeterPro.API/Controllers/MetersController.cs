@@ -10,7 +10,7 @@ using uPLibrary.Networking.M2Mqtt;
 using MeterPro.DATA.CommandModels;
 using MeterPro.DATA.AuthModels;
 using MeterPro.DATA.Enums;
-
+ 
 namespace MeterPro.API.Controllers
 {
     [Route("api/[controller]")]
@@ -127,7 +127,7 @@ namespace MeterPro.API.Controllers
                 }
                 else
                 {
-                    if (sub.Balance > 0 && device.PowerStatus == "OFF")
+                    if (sub.Balance > 0 && device.PowerStatus == "OFF" && device.ShutOffBy!=ShutOffBy.User)
                     {
                         var command = new Command()
                         {
@@ -202,6 +202,16 @@ namespace MeterPro.API.Controllers
         {
             var filter = Builders<Meter>.Filter;
             var query = filter.Empty;
+            var meters = await unitOfWork.MeterDataRepository.GetAll(query);
+            return Ok(meters);
+        }
+
+        [HttpGet]
+        [Route("GetMyMeters")]
+        public async Task<IActionResult> GetMyMeters(string owner)
+        {
+            var filter = Builders<Meter>.Filter;
+            var query = filter.Eq(x => x.Owner, owner);
             var meters = await unitOfWork.MeterDataRepository.GetAll(query);
             return Ok(meters);
         }

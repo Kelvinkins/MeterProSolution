@@ -82,5 +82,34 @@ namespace MeterPro.API.Controllers
             }
            
         }
+
+
+        [HttpGet]
+        [Route("GetBalanceData")]
+        public async Task<IActionResult> GetBalanceData(string meterSn)
+        {
+            var filter = Builders<Subscription>.Filter;
+            var query = filter.Eq(x => x.MeterSn, meterSn);
+            var data = await unitOfWork.SubscriptionRepository.GetAll(query);
+            return Ok(data);
+        }
+
+
+        [HttpGet]
+        [Route("GetAggregateBalance")]
+        public async Task<IActionResult> GetAggregateBalance(string owner)
+        {
+            var filter = Builders<Subscription>.Filter;
+            var query = filter.Eq(x => x.Owner, owner);
+            var data = await unitOfWork.SubscriptionRepository.GetAll(query);
+            var aggregateBalance =new Subscription()
+            {
+                Balance=data.Sum(x => x.Balance),
+                InitialValue=data.Sum(x => x.InitialValue),
+                SubscriptionValue=data.Sum(x => x.SubscriptionValue)
+            };
+            return Ok(aggregateBalance);
+        }
+
     }
 }

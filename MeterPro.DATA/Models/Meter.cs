@@ -20,6 +20,7 @@ namespace MeterPro.DATA.Models
         public decimal TotalUsageAccum { get; set; }
         public decimal Balance { get; set; }
         public ShutOffBy? ShutOffBy { get; set; }
+        public string? Owner { get; set; }
 
 
 
