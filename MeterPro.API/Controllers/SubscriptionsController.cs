@@ -91,7 +91,7 @@ namespace MeterPro.API.Controllers
             var filter = Builders<Subscription>.Filter;
             var query = filter.Eq(x => x.MeterSn, meterSn);
             var data = await unitOfWork.SubscriptionRepository.GetAll(query);
-            return Ok(data);
+            return Ok(data.FirstOrDefault());
         }
 
 
