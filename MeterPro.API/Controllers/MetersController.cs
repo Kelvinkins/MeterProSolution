@@ -197,11 +197,11 @@ namespace MeterPro.API.Controllers
         //}
 
             [HttpGet]
-        [Route("GetMeters")]
-        public async Task<IActionResult> GetMeters()
+        [Route("GetMetersByNetwork")]
+        public async Task<IActionResult> GetMetersByNetwork(string network)
         {
             var filter = Builders<Meter>.Filter;
-            var query = filter.Empty;
+            var query = filter.Eq(x => x.Network, network);
             var meters = await unitOfWork.MeterDataRepository.GetAll(query);
             return Ok(meters);
         }
@@ -215,6 +215,8 @@ namespace MeterPro.API.Controllers
             var meters = await unitOfWork.MeterDataRepository.GetAll(query);
             return Ok(meters);
         }
+
+
 
         [HttpGet]
         [Route("GetMeterLogs")]

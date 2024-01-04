@@ -244,10 +244,17 @@ namespace MeterPro.API.Controllers
 
         [HttpPost]
         [Route("Subscribe")]
-        public  IActionResult Subscribe(TopicSubVm model)
+        public async Task<IActionResult> SubscribeAsync(TopicSubVm model)
         {
             BrokerService.LoginDevice(model.MeterSn!);
             BrokerService.Subscribe(BrokerService.client, $"data/up/NzMyNDQ5MDQ1ODk4MTI5NDA4/{model.MeterSn}");//Subscribe to data topic
+            var filter = Builders<Meter>.Filter;
+            var query = filter.Eq(x => x.MeterSn, model.MeterSn);
+            var update = Builders<Meter>.Update
+                            .Set("LastUpdated", DateTime.Now)
+                            .Set("Network",model.Network);
+            await unitOfWork.MeterDataRepository.Update(update, "MeterSn", model.MeterSn!);
+            await unitOfWork.CommitAsync();
             return Ok("Subscribed successfully, please check for data");
         }
     }
